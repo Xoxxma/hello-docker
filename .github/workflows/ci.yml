@@ -1,3 +1,23 @@
-Команда AT признана нерекомендуемой. Используйте вместо нее schtasks.exe.
+name: CI
 
-Такой запрос не поддерживается.
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker images
+        run: docker compose build
+
+      - name: Run containers
+        run: docker compose up -d
+
+      - name: Stop containers
+        run: docker compose down
